@@ -77,7 +77,7 @@ void handleRoot()
 
 	    char data[DATA_LEN];
 	    snprintf(data, DATA_LEN, "# HELP mhz19_co2 (ppm)\n# TYPE mhz19_co2 gauge\nmhz19_co2{room=\"%s\"} %d \n# HELP mhz19_temp (celcius)\n# TYPE mhz19_temp gauge\nmhz19_temp{room=\"%s\"} %d \n", ROOM, co2, ROOM, temp);
-			    
+
 	    server.send(200, "text/plain", data);
         } else {
             // how to handle this in prometheus
