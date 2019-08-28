@@ -12,8 +12,7 @@
 #define PIN_RX  D1
 #define PIN_TX  D2
 
-#define TEMP_HELP "# HELP mhz19_temp (celcius)"
-#define TEMP_TYPE "# TYPE mhz19_temp gauge"
+#define DATA_LEN 250
 #define ROOM "bedroom"
 
 SoftwareSerial sensor(PIN_RX, PIN_TX);
@@ -76,8 +75,9 @@ void handleRoot()
             Serial.print("TEMP:");
             Serial.println(temp, DEC);
 
-	    char data[300];
-	    sprintf(data, "# HELP mhz19_co2 (ppm)\n# TYPE mhz19_co2 gauge\nmhz19_co2{room=\"bedroom\"} %d \n", co2);
+	    char data[DATA_LEN];
+	    snprintf(data, DATA_LEN, "# HELP mhz19_co2 (ppm)\n# TYPE mhz19_co2 gauge\nmhz19_co2{room=\"%s\"} %d \n# HELP mhz19_temp (celcius)\n# TYPE mhz19_temp gauge\nmhz19_temp{room=\"%s\"} %d \n", ROOM, co2, ROOM, temp);
+			    
 	    server.send(200, "text/plain", data);
         } else {
             // how to handle this in prometheus
