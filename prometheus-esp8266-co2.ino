@@ -8,6 +8,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>
+#include <ArduinoOTA.h>
 
 #define PIN_RX  D1
 #define PIN_TX  D2
@@ -99,6 +100,11 @@ void setup()
     Serial.print("ESP ID: ");
     Serial.println(esp_id);
 
+    // setup OTA
+    ArduinoOTA.setHostname("esp-co2sensor");
+    ArduinoOTA.setPassword("co2sensor");
+    ArduinoOTA.begin();
+
     sensor.begin(9600);
 
     Serial.println("Starting WIFI manager ...");
@@ -118,4 +124,7 @@ void setup()
 void loop()
 {
     server.handleClient();
+
+    // allow OTA
+    ArduinoOTA.handle();
 }
