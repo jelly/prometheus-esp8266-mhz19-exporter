@@ -14,7 +14,6 @@
 #define PIN_TX  D2
 
 #define DATA_LEN 250
-#define ROOM "bedroom"
 
 SoftwareSerial sensor(PIN_RX, PIN_TX);
 ESP8266WebServer server(8080);
@@ -77,7 +76,7 @@ void handleRoot()
             Serial.println(temp, DEC);
 
 	    char data[DATA_LEN];
-	    snprintf(data, DATA_LEN, "# HELP mhz19_co2 (ppm)\n# TYPE mhz19_co2 gauge\nmhz19_co2{room=\"%s\"} %d \n# HELP mhz19_temp (celcius)\n# TYPE mhz19_temp gauge\nmhz19_temp{room=\"%s\"} %d \n", ROOM, co2, ROOM, temp);
+	    snprintf(data, DATA_LEN, "# HELP mhz19_co2 (ppm)\n# TYPE mhz19_co2 gauge\nmhz19_co2 %d \n# HELP mhz19_temp (celcius)\n# TYPE mhz19_temp gauge\nmhz19_temp %d \n", co2, temp);
 
 	    server.send(200, "text/plain", data);
         } else {
